@@ -12,7 +12,7 @@ contract Javabit is ERC777 {
     // Set the business owner
     address payable business_owner;
     // Set the accountant, whose account will be used as an authroized user to perform transactions?
-    address[] authorizedAccountant = [0x03A94eD43073B0Da131958611fcC200FF39e93B7];
+    address[] authorizedAccountant = [0x03A94eD43073B0Da131958611fcC200FF39e93B7, 0x28Ecc504b8940582b03FA43c91A2A9b2A04a603D];
     
     // Establish a structure that holds data related to company's accounts
     struct Account {
@@ -48,6 +48,7 @@ contract Javabit is ERC777 {
     
     
     // The constructor code will run at contract setup
+    //Make sure your contract deploy address (biz owner) and cash account address are different
     constructor(uint initialSupply, address payable _cash_account) public ERC777("Javabit1", "JB1", authorizedAccountant) {
         // Set the business_owner's address, used to give control to the contract for the accounts
         business_owner = msg.sender;
@@ -59,6 +60,10 @@ contract Javabit is ERC777 {
         mint(_cash_account, initialSupply);        
     }
     
+    modifier onlyOwner {
+        require(msg.sender == business_owner, "You are not authorized to execute this transaction");
+        _;
+    }
     
     // Invest money into the business
     function mint(address payable _account_addresses, uint _investment_amount) public {
@@ -66,19 +71,34 @@ contract Javabit is ERC777 {
     }
 /*
 
-    // Complete funciton to update accountant
-    function payLease() public {
-        // TODO 
+    // Complete function to update accountant
+    function updateAccountant() public {
+        // 
     }
+    
+*/
 
-    // Complete funciton for paying lease (- cash, - equity via expense), assume lease increases utilities
-    function payLease() public {
+    // Complete function for paying lease (- cash, - equity via expense), assume lease increases utilities
+    function payLease(address payable _cash_account, address payable _lease_expense_account, uint _lease_expense_amount) public {
         // TODO 
-        // Check that accounts are already in account_addresses and match the name
+        // Add onlyOwner requirements if necessary
+        // Check that accounts are already in account_addresses and match the name - (modifier)
+        
         // Trigger transaction
+        
+        //send javacoin to _lease_expense_account
+        operatorSend(_cash_account, _lease_expense_account, _lease_expense_amount, "", "");
+        //Where can we find other methods like this one?
+        
+        //reduce balance of business_owner (address of owner)
+        operatorBurn(business_owner, _lease_expense_amount, "", "");
+        
+        
+        //do we need to add to struct?
+        //Deploy contract and manually add accounts and addresses to struct then.
     }
     
-    
+/*    
     // Complete function for makoing coffee (- inventory, - equity via cost of goods sold expense)
     function makeCoffee() public {
         // TODO 
@@ -132,6 +152,5 @@ contract Javabit is ERC777 {
         return account_addresses.length;
     }
 }
-
 
 
