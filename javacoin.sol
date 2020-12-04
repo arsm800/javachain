@@ -78,47 +78,7 @@ contract Javabit is ERC777 {
     
 */
 
-    // Complete function for paying lease (- cash, - equity via expense), assume lease increases utilities
-    function payLease(address payable _cash_account, address payable _lease_expense_account, uint _lease_expense_amount) public {
-        // TODO 
-        // Add onlyOwner requirements if necessary
-        // Check that accounts are already in account_addresses and match the name - (modifier)
-        
-        // Trigger transaction
-        
-        //send javacoin to _lease_expense_account
-        operatorSend(_cash_account, _lease_expense_account, _lease_expense_amount, "", "");
-        //Where can we find other methods like this one?
-        
-        //reduce balance of business_owner (address of owner)
-        operatorBurn(business_owner, _lease_expense_amount, "", "");
-        
-        
-        //do we need to add to struct?
-        //Deploy contract and manually add accounts and addresses to struct then.
-    }
-    
-    
-    // Complete function for purchasing coffee beans (inventory)
-    function buyCoffeeInventory(address payable _cash_account, address payable _inventory_account, uint _inventory_amount) public {
-        // TODO 
-        // Check that accounts are already in account_addresses and match the name
-        // Trigger transaction
-        
-        operatorSend(_cash_account, _inventory_account, _inventory_amount, "", "");
-    }
-    
-  
-    
-    // Complete function for paying wages ()
-    function paySalary(address payable _cash_account, address payable _salary_expense_account, uint _salary_amount) public {
-        // TODO 
-        // Check that accounts are already in account_addresses and match the name
-        // Trigger transaction
-        
-        operatorSend(_cash_account, _salary_expense_account, _salary_amount, "", "");
-        operatorBurn(business_owner, _salary_amount, "", "");
-    }
+
     
  /* 
     // Complete function for tax liabilities (+ liability for taxes payable, - owners equity for retained earnings)
@@ -155,10 +115,88 @@ contract Javabit is ERC777 {
     }
     
     
+        // Complete function for purchasing coffee beans (inventory)
+    function buyCoffeeInventory(address payable _cash_account, address payable _inventory_account, uint _inventory_amount) public {
+        // TODO 
+        // Check that accounts are already in account_addresses and match the name
+        // Trigger transaction
+        
+        operatorSend(_cash_account, _inventory_account, _inventory_amount, "", "");
+    }
+    
+    
+    //Purchase coffee machines and other office equipment (capitalized).
+    function buyEquipment(address payable _cash_account, 
+                          address payable _capitalized_equipment_account,
+                          string memory _capitalized_equipment_type,
+                          uint _equipment_purchase_amount) public {
+                              
+        // Set equipment type name--access on front-end if necessary
+        string memory capitalized_equipment_type = _capitalized_equipment_type;
+                            
+        // Execute transaction
+        operatorSend(_cash_account, _capitalized_equipment_account, _equipment_purchase_amount, "", "");   
+                               
+
+    }
+    
+    
+    //Buy office supplies (non-capitalized--including cups, etc.)
+    function buyOfficeSupplies(address payable _cash_account,
+                               address payable _office_expense_account,
+                               string memory _supplies_type,
+                               uint _supplies_amount) public {
+    
+        //Set office supplies type name--access on front-end if necessary
+        string memory supplies_type = _supplies_type;
+        
+        //Execute transaction
+        operatorSend(_cash_account, _office_expense_account, _supplies_amount, "", "");
+        
+        //Update owner equity balance
+        operatorBurn(business_owner, _supplies_amount, "", "");
+                                
+    }
+    
+    
+    
+        // Complete function for paying lease (- cash, - equity via expense), assume lease increases utilities
+    function payLease(address payable _cash_account, address payable _lease_expense_account, uint _lease_expense_amount) public {
+        // TODO 
+        // Add onlyOwner requirements if necessary
+        // Check that accounts are already in account_addresses and match the name - (modifier)
+        
+        // Trigger transaction
+        
+        //send javacoin to _lease_expense_account
+        operatorSend(_cash_account, _lease_expense_account, _lease_expense_amount, "", "");
+        
+        //reduce balance of business_owner (address of owner)
+        operatorBurn(business_owner, _lease_expense_amount, "", "");
+        
+        
+        //do we need to add to struct?
+        //Deploy contract and manually add accounts and addresses to struct then.
+    }
+    
+    
+    
+    // Complete function for paying wages ()
+    function paySalary(address payable _cash_account, address payable _salary_expense_account, uint _salary_amount) public {
+        // TODO 
+        // Check that accounts are already in account_addresses and match the name
+        // Trigger transaction
+        
+        operatorSend(_cash_account, _salary_expense_account, _salary_amount, "", "");
+        operatorBurn(business_owner, _salary_amount, "", "");
+    }
+    
     // Complete any reconciliation function to manually manage anything not supported in the contract
     // ie address, mint or burn, with description of reconcilation entry
     
     
+    
+    //Below are functions to obtain existing account information
 
     // gets all the account addresses stored in memory
     function getAccounts() view public returns(address[] memory) {
@@ -166,6 +204,7 @@ contract Javabit is ERC777 {
     }
     
     
+    // Return accounts and their respective information
     function getAccount(address _address) view public returns (string memory, string memory, uint) {
         return (accounts[_address].category, accounts[_address].name, accounts[_address].natural_account);
         // OR JUST ? return (accounts[_address].category, accounts[_address].name, _address.balance);
