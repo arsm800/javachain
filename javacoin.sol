@@ -101,7 +101,7 @@ contract Javabit is ERC777 {
     
     // Complete function for purchasing coffee beans (inventory)
     function buyCoffeeInventory(address payable _cash_account, address payable _inventory_account, uint _inventory_amount) public {
-        // TODO 
+
         // Check that accounts are already in account_addresses and match the name
         // Trigger transaction
         
@@ -109,15 +109,18 @@ contract Javabit is ERC777 {
     }
     
   
-  /*  
+    
     // Complete function for paying wages ()
-    function payWages() public {
-        // TODO 
+    function paySalary(address payable _cash_account, address payable _salary_expense_account, uint _salary_amount) public {
+
         // Check that accounts are already in account_addresses and match the name
         // Trigger transaction
+        
+        operatorSend(_cash_account, _salary_expense_account, _salary_amount, "", "");
+        operatorBurn(business_owner, _salary_amount, "", "");
     }
     
-    
+ /* 
     // Complete function for tax liabilities (+ liability for taxes payable, - owners equity for retained earnings)
     function addTaxLiability() public {
         // TODO 
@@ -155,3 +158,4 @@ contract Javabit is ERC777 {
         return account_addresses.length;
     }
 }
+
