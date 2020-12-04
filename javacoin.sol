@@ -101,7 +101,7 @@ contract Javabit is ERC777 {
     
     // Complete function for purchasing coffee beans (inventory)
     function buyCoffeeInventory(address payable _cash_account, address payable _inventory_account, uint _inventory_amount) public {
-
+        // TODO 
         // Check that accounts are already in account_addresses and match the name
         // Trigger transaction
         
@@ -112,7 +112,7 @@ contract Javabit is ERC777 {
     
     // Complete function for paying wages ()
     function paySalary(address payable _cash_account, address payable _salary_expense_account, uint _salary_amount) public {
-
+        // TODO 
         // Check that accounts are already in account_addresses and match the name
         // Trigger transaction
         
@@ -128,12 +128,30 @@ contract Javabit is ERC777 {
         // Trigger transaction
     }
     
-    
-    // Complete sale (+ cash, - inventory, +/- owners equity (revenue - expenses/cost of goods sold))
-    function performSale() public {
-        // TODO 
+ */   
+    // Complete sale (+ cash, - inventory, +/- owners equity (revenue - expenses/cost of goods sold);)
+    function coffeeSale(address payable _cash_account, 
+                        address payable _sales_revenue_account, 
+                        address payable _cogs_account, 
+                        address payable _sales_expense_account,
+                        uint price, 
+                        uint quantity) public {
+        
         // Check that accounts are already in account_addresses and match the name
         // Trigger transaction
+        
+        // Calculate total sales revenue given a certain number of beverage purchases
+        uint _sales_revenue_amount = price * quantity;
+        
+        
+        mint(_cash_account, _sales_revenue_amount);
+        mint(_sales_revenue_account, _sales_revenue_amount);
+        
+        // Asssume a 50% profit margin
+        mint(business_owner, _sales_revenue_amount / 2);
+        mint(_cogs_account, _sales_revenue_amount / 2);
+        mint(_sales_expense_account, _sales_revenue_amount / 2);
+        
     }
     
     
@@ -141,7 +159,7 @@ contract Javabit is ERC777 {
     // ie address, mint or burn, with description of reconcilation entry
     
     
-*/
+
     // gets all the account addresses stored in memory
     function getAccounts() view public returns(address[] memory) {
         return account_addresses;
@@ -158,4 +176,3 @@ contract Javabit is ERC777 {
         return account_addresses.length;
     }
 }
-
