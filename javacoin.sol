@@ -98,15 +98,18 @@ contract Javabit is ERC777 {
         //Deploy contract and manually add accounts and addresses to struct then.
     }
     
-/*    
-    // Complete function for makoing coffee (- inventory, - equity via cost of goods sold expense)
-    function makeCoffee() public {
+    
+    // Complete function for purchasing coffee beans (inventory)
+    function buyCoffeeInventory(address payable _cash_account, address payable _inventory_account, uint _inventory_amount) public {
         // TODO 
         // Check that accounts are already in account_addresses and match the name
         // Trigger transaction
+        
+        operatorSend(_cash_account, _inventory_account, _inventory_amount, "", "");
     }
     
-    
+  
+  /*  
     // Complete function for paying wages ()
     function payWages() public {
         // TODO 
@@ -152,5 +155,3 @@ contract Javabit is ERC777 {
         return account_addresses.length;
     }
 }
-
-
