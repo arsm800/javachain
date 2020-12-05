@@ -57,7 +57,7 @@ truffle init
 ```
 
 Contract Compilation
-Create a very simple smart contract named HelloWorld.sol and place it inside the contracts folder. All smart contracts you create should be placed inside this folder.
+
 ```
 truffle compile
 ```
