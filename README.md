@@ -35,11 +35,13 @@ The implications of these smart contracts are far-reaching; this application can
 
 * Using the webform
 
+
 Getting Started with Truffle
 Install the packages in Terminal/CMD:
 
+```
 npm install -g truffle ganache-cli live-server
-
+```
 
 Create project folder
 
