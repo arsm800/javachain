@@ -48,7 +48,7 @@ The implications of these smart contracts are far-reaching; this application can
 
 ## Project Team
 
-* Eric Baran
-* Bryan Castillo
-* Andrew Rubi
-* Andrew Smith-Mui
+* [Eric Baran](https://github.com/ebizz403s)
+* [Bryan Castillo](https://github.com/Bcastillo44)
+* [Andrew Rubi](https://github.com/andrewjrubi)
+* [Andrew Smith-Mui](https://github.com/arsm800)
