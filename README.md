@@ -35,6 +35,53 @@ The implications of these smart contracts are far-reaching; this application can
 
 * Using the webform
 
+Getting Started with Truffle
+Install the packages in Terminal/CMD:
+
+npm install -g truffle ganache-cli live-server
+
+
+Create project folder
+
+mkdir “Your project name”
+cd “Your project name”
+
+Execute command that creates a bare Truffle project without anything else included.
+
+
+truffle init
+
+Contract Compilation
+Create a very simple smart contract named HelloWorld.sol and place it inside the contracts folder. All smart contracts you create should be placed inside this folder.
+
+truffle compile
+
+Contract Deployment
+Create a new file in the migrations directory named 2_deploy_contracts.js
+Open truffle-config.js, and change the networks part:
+networks: {
+  development: {
+    host: “127.0.0.1”,
+    port: 8545,
+    network_id: “*”
+  }
+}
+
+Deploying contract by executing this command:
+
+truffle migrate
+
+Open a new Terminal/CMD and start Ganache on port 8545 by executing the following command:
+
+ganache-cli -p 8545
+
+
+Now, back to our first Terminal/CMD, execute
+
+truffle migrate -network development
+to deploy the code to the blockchain. In our case, the blockchain could be found in the network development which we set earlier in the truffle-config.js file.
+
+
 
 ## Technologies Used
 
