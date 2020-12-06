@@ -3,7 +3,7 @@ pragma solidity ^0.6.2;
 contract Payroll {
 
     address public owner;
-    uint public nextEmpolyeeID;
+    uint public nextEmployeeID;
     struct Employee {
         uint employeeId;
         uint wages;
@@ -19,8 +19,8 @@ contract Payroll {
 
     //Add employee w/ address and wage
     function addEmployee(address _employee, uint _wages) public {
-        nextEmpolyeeID++;
-        employees[_employee].employeeId=nextEmpolyeeID;
+        nextEmployeeID++;
+        employees[_employee].employeeId=nextEmployeeID;
         employees[_employee].wages=_wages;
     }
 
