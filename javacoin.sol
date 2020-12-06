@@ -2,10 +2,6 @@ pragma solidity ^0.6.2;
 
 // Import the ERC-777 standarization
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC777/ERC777.sol";
-//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol"; <-- this may have caused error
-
-// Overall TODO, make transaction functions, figure out exchange rate, make owner only defined functions, 
-// check security, require functions or modifier functions, IPFS for receipts, emit events in the code
 
 contract Javabit is ERC777 {
     
@@ -30,13 +26,10 @@ contract Javabit is ERC777 {
     // List of account addresses for enumeration
     address[] public account_addresses;
     
+    // Log an event for historical reporting
+    event recordTransactions(string transactionDescription, string additionalDetail, uint256 transactionAmount);
     
-    /* Set the accountant, only ower can set the accountant
-    function setAccountant(address _accountant) onlyOwner public {
-        accountant = _accountant;
-    }
-    */
-    
+    // Function is run to create the accounts
     function createAccounts(address _address, 
                             // asset, liability, equity (we prob dont need to do expense and revenue accts for simplicity)
                             string memory _category, 
@@ -46,9 +39,8 @@ contract Javabit is ERC777 {
         account_addresses.push(_address);
     }
     
-    
     // The constructor code will run at contract setup
-    //Make sure your contract deploy address (biz owner) and cash account address are different
+    // Make sure your contract deploy address (business owner) and cash account address are different as both get funded
     constructor(uint initialSupply, address payable _cash_account) public ERC777("Javabit1", "JB1", authorizedAccountant) {
         // Set the business_owner's address, used to give control to the contract for the accounts
         business_owner = msg.sender;
@@ -57,38 +49,16 @@ contract Javabit is ERC777 {
         createAccounts(_cash_account, 'cash', 'asset', 1000);          
         // Invest inital amount
         mint(msg.sender, initialSupply);
-        mint(_cash_account, initialSupply);        
+        mint(_cash_account, initialSupply);  
+        emit recordTransactions("investment into business", "cash", initialSupply);
     }
     
-    modifier onlyOwner {
-        require(msg.sender == business_owner, "You are not authorized to execute this transaction");
-        _;
-    }
     
     // Invest money into the business
     function mint(address payable _account_addresses, uint _investment_amount) public {
         _mint(_account_addresses, _investment_amount, "", "");
     }
-/*
 
-    // Complete function to update accountant
-    function updateAccountant() public {
-        // 
-    }
-    
-*/
-
-
-    
- /* 
-    // Complete function for tax liabilities (+ liability for taxes payable, - owners equity for retained earnings)
-    function addTaxLiability() public {
-        // TODO 
-        // Check that accounts are already in account_addresses and match the name
-        // Trigger transaction
-    }
-    
- */   
     // Complete sale (+ cash, - inventory, +/- owners equity (revenue - expenses/cost of goods sold);)
     function coffeeSale(address payable _cash_account, 
                         address payable _sales_revenue_account, 
@@ -115,13 +85,16 @@ contract Javabit is ERC777 {
     }
     
     
-        // Complete function for purchasing coffee beans (inventory)
-    function buyCoffeeInventory(address payable _cash_account, address payable _inventory_account, uint _inventory_amount) public {
-        // TODO 
-        // Check that accounts are already in account_addresses and match the name
-        // Trigger transaction
+    //Purchase inventory like coffee beans
+    function buyInventory(address payable _cash_account, 
+                          address payable _inventory_account,
+                          string memory _inventory_type,
+                          uint _inventory_amount) public {
+
+        // Execute transaction
+        operatorSend(_cash_account, _inventory_account, _inventory_amount, "", "");   
         
-        operatorSend(_cash_account, _inventory_account, _inventory_amount, "", "");
+        emit recordTransactions("inventory buy", _inventory_type, _inventory_amount);
     }
     
     
@@ -130,73 +103,41 @@ contract Javabit is ERC777 {
                           address payable _capitalized_equipment_account,
                           string memory _capitalized_equipment_type,
                           uint _equipment_purchase_amount) public {
-                              
-        // Set equipment type name--access on front-end if necessary
-        string memory capitalized_equipment_type = _capitalized_equipment_type;
-                            
+
         // Execute transaction
         operatorSend(_cash_account, _capitalized_equipment_account, _equipment_purchase_amount, "", "");   
-                               
+        
+        emit recordTransactions("equpment buy", _capitalized_equipment_type, _equipment_purchase_amount);
 
     }
     
-    
-    //Buy office supplies (non-capitalized--including cups, etc.)
-    function buyOfficeSupplies(address payable _cash_account,
-                               address payable _office_expense_account,
-                               string memory _supplies_type,
-                               uint _supplies_amount) public {
-    
-        //Set office supplies type name--access on front-end if necessary
-        string memory supplies_type = _supplies_type;
-        
-        //Execute transaction
-        operatorSend(_cash_account, _office_expense_account, _supplies_amount, "", "");
-        
-        //Update owner equity balance
-        operatorBurn(business_owner, _supplies_amount, "", "");
-                                
-    }
-    
-    
-    
-        // Complete function for paying lease (- cash, - equity via expense), assume lease increases utilities
+
+    // Complete function for paying lease (- cash, - equity via expense), assume lease increases utilities
     function payLease(address payable _cash_account, address payable _lease_expense_account, uint _lease_expense_amount) public {
-        // TODO 
-        // Add onlyOwner requirements if necessary
-        // Check that accounts are already in account_addresses and match the name - (modifier)
-        
-        // Trigger transaction
-        
-        //send javacoin to _lease_expense_account
+
+        // send javacoin to _lease_expense_account
         operatorSend(_cash_account, _lease_expense_account, _lease_expense_amount, "", "");
         
-        //reduce balance of business_owner (address of owner)
+        // reduce balance of business_owner (address of owner)
         operatorBurn(business_owner, _lease_expense_amount, "", "");
         
+        emit recordTransactions("reoccuring expense", "lease", _lease_expense_amount);
         
-        //do we need to add to struct?
-        //Deploy contract and manually add accounts and addresses to struct then.
     }
-    
     
     
     // Complete function for paying wages ()
     function paySalary(address payable _cash_account, address payable _salary_expense_account, uint _salary_amount) public {
-        // TODO 
-        // Check that accounts are already in account_addresses and match the name
-        // Trigger transaction
-        
+
+        // send javacoin to the salary expense account     
         operatorSend(_cash_account, _salary_expense_account, _salary_amount, "", "");
+
+        // reduce balance of business_owner (address of owner)
         operatorBurn(business_owner, _salary_amount, "", "");
+        
+        emit recordTransactions("reoccuring expense", "salary", _salary_amount);
     }
     
-    // Complete any reconciliation function to manually manage anything not supported in the contract
-    // ie address, mint or burn, with description of reconcilation entry
-    
-    
-    
-    //Below are functions to obtain existing account information
 
     // gets all the account addresses stored in memory
     function getAccounts() view public returns(address[] memory) {
