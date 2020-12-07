@@ -19,7 +19,7 @@ The implications of these smart contracts are far-reaching; this application can
 * [MetaMask](https://metamask.io/), a crypto wallet and gateway to blockchain apps.
 * [Ganache](https://www.trufflesuite.com/ganache), locally hosted personal Ethereum blockchain.
 * [Flask](https://palletsprojects.com/p/flask/), a lightweight web application framework with Python.
-* [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/), service for deploying and scaling web applications.
+* [AWS and Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/), service for deploying and scaling web applications.
 * [JavaScript](https://www.javascript.com), client-side web browser just-in-time compiled web programming language.
 * [HTML](https://devdocs.io/html/), standard markup language for web browser display.
 * [Bootstrap](https://devdocs.io/html/), popular front-end open source web design library and toolkit.
