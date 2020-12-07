@@ -10,6 +10,9 @@ contract Javabit is ERC777 {
     // Set the accountant, whose account will be used as an authroized user to perform transactions?
     address[] authorizedAccountant = [0x03A94eD43073B0Da131958611fcC200FF39e93B7, 0x28Ecc504b8940582b03FA43c91A2A9b2A04a603D];
     
+    // Establish a counter (library inport is not compatable)
+    uint busRecordId = 0;
+
     // Establish a structure that holds data related to company's accounts
     struct Account {
         // category should be assets, liabilities, equity (may skip doing seperate revenue and expense accounts and just change equity)
@@ -27,7 +30,7 @@ contract Javabit is ERC777 {
     address[] public account_addresses;
     
     // Log an event for historical reporting
-    event recordTransactions(string transactionDescription, string additionalDetail, uint256 transactionAmount);
+    event RecordTransactions(uint busRecordId, string transactionDescription, string additionalDetail, uint transactionAmount);
     
     // Function is run to create the accounts
     function createAccounts(address _address, 
@@ -39,18 +42,21 @@ contract Javabit is ERC777 {
         account_addresses.push(_address);
     }
     
+    
     // The constructor code will run at contract setup
-    // Make sure your contract deploy address (business owner) and cash account address are different as both get funded
     constructor(uint initialSupply, address payable _cash_account) public ERC777("Javabit1", "JB1", authorizedAccountant) {
+        // Make sure your contract deploy address (business owner) and cash account address are different as both get funded
+        require(msg.sender != _cash_account, "message sender is the owner and can not be the cash account");
         // Set the business_owner's address, used to give control to the contract for the accounts
         business_owner = msg.sender;
         // Create the initial accounts for starting business
-        createAccounts(msg.sender, 'owners_equity', 'equity', 3000);
-        createAccounts(_cash_account, 'cash', 'asset', 1000);          
+        createAccounts(msg.sender, 'equity', 'owners_equity', 3000);
+        createAccounts(_cash_account, 'asset', 'cash', 1000);          
         // Invest inital amount
         mint(msg.sender, initialSupply);
         mint(_cash_account, initialSupply);  
-        emit recordTransactions("investment into business", "cash", initialSupply);
+        busRecordId++;
+        emit RecordTransactions(busRecordId, "investment into business", "cash", initialSupply);
     }
     
     
@@ -94,7 +100,8 @@ contract Javabit is ERC777 {
         // Execute transaction
         operatorSend(_cash_account, _inventory_account, _inventory_amount, "", "");   
         
-        emit recordTransactions("inventory buy", _inventory_type, _inventory_amount);
+        busRecordId++;
+        emit RecordTransactions(busRecordId,"inventory buy", _inventory_type, _inventory_amount);
     }
     
     
@@ -107,7 +114,8 @@ contract Javabit is ERC777 {
         // Execute transaction
         operatorSend(_cash_account, _capitalized_equipment_account, _equipment_purchase_amount, "", "");   
         
-        emit recordTransactions("equpment buy", _capitalized_equipment_type, _equipment_purchase_amount);
+        busRecordId++;
+        emit RecordTransactions(busRecordId, "equpment buy", _capitalized_equipment_type, _equipment_purchase_amount);
 
     }
     
@@ -121,7 +129,8 @@ contract Javabit is ERC777 {
         // reduce balance of business_owner (address of owner)
         operatorBurn(business_owner, _lease_expense_amount, "", "");
         
-        emit recordTransactions("reoccuring expense", "lease", _lease_expense_amount);
+        busRecordId++;
+        emit RecordTransactions(busRecordId, "reoccuring expense", "lease", _lease_expense_amount);
         
     }
     
@@ -135,7 +144,8 @@ contract Javabit is ERC777 {
         // reduce balance of business_owner (address of owner)
         operatorBurn(business_owner, _salary_amount, "", "");
         
-        emit recordTransactions("reoccuring expense", "salary", _salary_amount);
+        busRecordId++;
+        emit RecordTransactions(busRecordId, "reoccuring expense", "salary", _salary_amount);
     }
     
 
@@ -148,7 +158,6 @@ contract Javabit is ERC777 {
     // Return accounts and their respective information
     function getAccount(address _address) view public returns (string memory, string memory, uint) {
         return (accounts[_address].category, accounts[_address].name, accounts[_address].natural_account);
-        // OR JUST ? return (accounts[_address].category, accounts[_address].name, _address.balance);
     }
     
     // gets the number of account addresses we have stored
