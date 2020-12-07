@@ -12,20 +12,22 @@ Specific business operations can also take advantage of the blockchain.  As part
 
 The implications of these smart contracts are far-reaching; this application can be expanded to include many other business processes and features, effectively transforming it into a sort of blockchain-based Quickbooks or TurboTax. 
 
-## Business Development Process
+## Technology Stack
 
-1.	Research what the big 4 accounting firms have been saying on this.
-2.	Blockchain Accounting for Business: decide what business transactions that we want to support
-  a.	Investment in a business from an owner (cash and owners equity).
-  b.	Purchase of assets (goods, inventory).
-  c.	Employee Cost.
-  d.	Sales of goods on cash.
-3.	Set the data we want to store on the blockchain (ie, what needs to be debited and credited for each transaction, uri of supporting docs).
-4.	Write the smart contracts that support business transactions
-5.	Establish the business and its accounting records for 1 year and run through the smart contracts. Use Ganache.
-6.	Deploy to Github pages with a good user interface. *** As the deliverable *** 
-7.	Establish a token that offers access to financial statements that can be given to  a bank or investor or represents investment in the business / economics or voting interest.
-8.	See if we could distribute among our four computers.
+* [Solidity](https://soliditylang.org), an object-oriented programming language for writing smart contracts on various blockchain platforms, most commonly Ethereum.
+* [Remix IDE](https://remix-ide.readthedocs.io/en/latest/), Solidity IDE with built in blockchain deployment options.
+* [MetaMask](https://metamask.io/), a crypto wallet and gateway to blockchain apps.
+* [Ganache](https://www.trufflesuite.com/ganache), locally hosted personal Ethereum blockchain.
+* [Flask](https://palletsprojects.com/p/flask/), a lightweight web application framework with Python.
+* [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/), service for deploying and scaling web applications.
+* [JavaScript](https://www.javascript.com), client-side web browser just-in-time compiled web programming language.
+* [HTML](https://devdocs.io/html/), standard markup language for web browser display.
+* [Bootstrap](https://devdocs.io/html/), popular front-end open source web design library and toolkit.
+* [web3.js](https://web3js.readthedocs.io/en/v1.3.0/), collection of libraries that allow you to interact with a local or remote Ethereum node and contains useful [Utility Pacakge](https://web3js.readthedocs.io/en/v1.2.11/web3-utils.html).
+* [ethers](https://docs.ethers.io/v5/), library for interacting with the Ethereum Blockchain (a web3 alternative).
+* [Ethereum Virtual Machine](https://ethereum.org/en/developers/docs/evm/)
+* [Truffle Suite](https://www.trufflesuite.com)
+
 
 ## Deployment Instructions
 
@@ -37,6 +39,9 @@ The implications of these smart contracts are far-reaching; this application can
 
 * Using the webform
 
+### 
+
+https://flask.palletsprojects.com/en/1.1.x/quickstart/
 
 ### Getting Started with Truffle
 Install the packages in Terminal/CMD:
@@ -99,17 +104,20 @@ truffle migrate -network development
 to deploy the code to the blockchain. In our case, the blockchain could be found in the network development which we set earlier in the truffle-config.js file.
 
 
+## Business Development Process
 
-## Technologies Used
-
-* [Solidity](https://soliditylang.org)
-* [JavaScript](https://www.javascript.com)
-* [HTML](https://devdocs.io/html/)
-* [Ethereum Virtual Machine](https://ethereum.org/en/developers/docs/evm/)
-* [Remix IDE](https://remix-ide.readthedocs.io/en/latest/)
-* [Truffle Suite](https://www.trufflesuite.com)
-* [Ganache](https://www.trufflesuite.com/ganache)
-
+1.	Research what the big 4 accounting firms have been saying on this.
+2.	Blockchain Accounting for Business: decide what business transactions that we want to support
+  a.	Investment in a business from an owner (cash and owners equity).
+  b.	Purchase of assets (goods, inventory).
+  c.	Employee Cost.
+  d.	Sales of goods on cash.
+3.	Set the data we want to store on the blockchain (ie, what needs to be debited and credited for each transaction, uri of supporting docs).
+4.	Write the smart contracts that support business transactions
+5.	Establish the business and its accounting records for 1 year and run through the smart contracts. Use Ganache.
+6.	Deploy to Github pages with a good user interface. *** As the deliverable *** 
+7.	Establish a token that offers access to financial statements that can be given to  a bank or investor or represents investment in the business / economics or voting interest.
+8.	See if we could distribute among our four computers.
 ## Project Team
 
 * [Eric Baran](https://github.com/ebizz403s)
