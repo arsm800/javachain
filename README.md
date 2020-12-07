@@ -31,6 +31,8 @@ The implications of these smart contracts are far-reaching; this application can
 
 * Ropsten Network
 
+* Front End UI
+
 * Truffle Suite
 
 * Using the webform
