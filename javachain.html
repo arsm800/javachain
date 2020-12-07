@@ -147,7 +147,7 @@
 					cell1.innerHTML = returnedPromise[i];
 					cell2.innerHTML = returnedPromise2[1];
 					cell3.style.textAlign = "right";
-  					cell3.innerHTML = myPromise3;
+  				cell3.innerHTML = myPromise3;
 			}
 		}
 
@@ -199,34 +199,33 @@
 				var myPromise3 = await myPromise3;
 
 				switch(returnedPromise2[0]) {
-
 					case 'asset': 
-							var table = document.getElementById("displayAssets");
-							var row = table.insertRow(-1);
-							var cell1 = row.insertCell(0);
-							var cell2 = row.insertCell(1);
-							cell1.innerHTML = returnedPromise2[1];
-							cell2.style.textAlign = "right";
-		  					cell2.innerHTML = myPromise3;
-							break; 
+						var table = document.getElementById("displayAssets");
+						var row = table.insertRow(-1);
+						var cell1 = row.insertCell(0);
+						var cell2 = row.insertCell(1);
+						cell1.innerHTML = returnedPromise2[1];
+						cell2.style.textAlign = "right";
+						cell2.innerHTML = myPromise3;
+						break; 
 					case 'liability':
-							var table = document.getElementById("displayLiabilities");
-							var row = table.insertRow(-1);
-							var cell1 = row.insertCell(0);
-							var cell2 = row.insertCell(1);
-							cell1.innerHTML = returnedPromise2[1];
-							cell2.style.textAlign = "right";
-		  					cell2.innerHTML = myPromise3;
-							break;
+						var table = document.getElementById("displayLiabilities");
+						var row = table.insertRow(-1);
+						var cell1 = row.insertCell(0);
+						var cell2 = row.insertCell(1);
+						cell1.innerHTML = returnedPromise2[1];
+						cell2.style.textAlign = "right";
+						cell2.innerHTML = myPromise3;
+						break;
 					case 'equity':
-							var table = document.getElementById("displayEquity");
-							var row = table.insertRow(-1);
-							var cell1 = row.insertCell(0);
-							var cell2 = row.insertCell(1);
-							cell1.innerHTML = returnedPromise2[1];
-							cell2.style.textAlign = "right";
-		  					cell2.innerHTML = myPromise3;
-							break;
+						var table = document.getElementById("displayEquity");
+						var row = table.insertRow(-1);
+						var cell1 = row.insertCell(0);
+						var cell2 = row.insertCell(1);
+						cell1.innerHTML = returnedPromise2[1];
+						cell2.style.textAlign = "right";
+						cell2.innerHTML = myPromise3;
+						break;
 				}
 			}
 		}
