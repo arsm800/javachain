@@ -23,7 +23,7 @@ The implications of these smart contracts are far-reaching; this application can
 * [JavaScript](https://www.javascript.com), client-side web browser just-in-time compiled web programming language.
 * [HTML](https://devdocs.io/html/), standard markup language for web browser display.
 * [Bootstrap](https://devdocs.io/html/), popular front-end open source web design library and toolkit.
-* [web3.js](https://web3js.readthedocs.io/en/v1.3.0/), collection of libraries that allow you to interact with a local or remote Ethereum node and contains useful [Utility Pacakge](https://web3js.readthedocs.io/en/v1.2.11/web3-utils.html).
+* [web3.js](https://web3js.readthedocs.io/en/v1.3.0/), collection of libraries that allow you to interact with a local or remote Ethereum node and contains useful     [Utility Package](https://web3js.readthedocs.io/en/v1.2.11/web3-utils.html).
 * [ethers](https://docs.ethers.io/v5/), library for interacting with the Ethereum Blockchain (a web3 alternative).
 * [Ethereum Virtual Machine](https://ethereum.org/en/developers/docs/evm/)
 * [Truffle Suite](https://www.trufflesuite.com)
@@ -31,17 +31,18 @@ The implications of these smart contracts are far-reaching; this application can
 
 ## Deployment Instructions
 
-* Ropsten Network
+### JavaChain Web Application
 
-* Front End UI
-
-* Truffle Suite
-
-* Using the webform
+* Compile 'javacoin.sol' smart contract in Remix IDE
+* In Remix, deploy smart contract with initial cash amount and cash address
+* Open application [link](http://javachain.eba-fkzbfwzg.us-east-2.elasticbeanstalk.com/) in web browser
+* Log into Metamask and ensure it is connected to Ropsten Test Network and the JavaChain site is one of your connected sites
+* Once smart contract successfully deploys, copy smart contract address
+* Paste smart contract address in 'Contract Address' field
 
 ### 
 
-https://flask.palletsprojects.com/en/1.1.x/quickstart/
+
 
 ### Getting Started with Truffle
 Install the packages in Terminal/CMD:
