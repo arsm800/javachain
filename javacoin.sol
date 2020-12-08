@@ -10,7 +10,7 @@ contract Javabit is ERC777 {
     // Set the accountant, whose account will be used as an authroized user to perform transactions?
     address[] authorizedAccountant = [0x03A94eD43073B0Da131958611fcC200FF39e93B7, 0x28Ecc504b8940582b03FA43c91A2A9b2A04a603D];
     
-    // Establish a counter (library inport is not compatable)
+    // Establih a counter (library inport is not compatable)
     uint busRecordId = 0;
 
     // Establish a structure that holds data related to company's accounts
@@ -65,29 +65,26 @@ contract Javabit is ERC777 {
         _mint(_account_addresses, _investment_amount, "", "");
     }
 
-    // Complete sale (+ cash, - inventory, +/- owners equity (revenue - expenses/cost of goods sold);)
+    // Complete sale 
     function coffeeSale(address payable _cash_account, 
-                        address payable _sales_revenue_account, 
-                        address payable _cogs_account, 
-                        address payable _sales_expense_account,
+                        address payable _inventory_account, 
                         uint price, 
                         uint quantity) public {
         
-        // Check that accounts are already in account_addresses and match the name
-        // Trigger transaction
-        
+    
         // Calculate total sales revenue given a certain number of beverage purchases
         uint _sales_revenue_amount = price * quantity;
         
-        
+        // Increase to Cash, Reduce Inventory, Enter Profit to Business Owner
         mint(_cash_account, _sales_revenue_amount);
-        mint(_sales_revenue_account, _sales_revenue_amount);
-        
-        // Asssume a 50% profit margin
-        mint(business_owner, _sales_revenue_amount / 2);
-        mint(_cogs_account, _sales_revenue_amount / 2);
-        mint(_sales_expense_account, _sales_revenue_amount / 2);
-        
+        operatorBurn(_inventory_account, _sales_revenue_amount/2, "", "");
+        // Assume all profit right now
+        uint profit = _sales_revenue_amount - (_sales_revenue_amount/2);
+        mint(business_owner, profit);
+
+        busRecordId++;
+        emit RecordTransactions(busRecordId,"sale", "coffee", _sales_revenue_amount);
+        emit RecordTransactions(busRecordId,"inventory reduction", "coffee", _sales_revenue_amount/2);
     }
     
     
