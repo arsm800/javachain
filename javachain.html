@@ -1,4 +1,4 @@
-<!-- Javacoin Code! -->
+<!-- javaChain Code! -->
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -61,6 +61,9 @@
       "event Transfer(address indexed from, address indexed to, uint amount)", 
       "function defaultOperators() external view returns (address[] memory)", 
       "function buyEquipment(address payable _cash_account, address payable _capitalized_equipment_account, string memory _capitalized_equipment_type, uint _equipment_purchase_amount)", 
+      "function payLease(address payable _cash_account, address payable _lease_expense_account, uint _lease_expense_amount)",
+      "function buyInventory(address payable _cash_account, address payable _inventory_account, string memory _inventory_type, uint _inventory_amount)",
+      "function coffeeSale(address payable _cash_account, address payable _inventory_account, uint price, uint quantity)",
       "event RecordTransactions(uint busRecordId, string transactionDescription, string additionalDetail, uint transactionAmount)"
       ];
       async function launchFunction() {
@@ -84,6 +87,7 @@
              // get the account currently signed into metamask
              metamaskUser = signer.provider.provider._state.accounts[0]
           if (metamaskUser == undefined) {
+            location.reload();
             alert("Log into Metamask");
           } else {
             let myPromise = new Promise(function(myResolve, myReject) {
@@ -106,7 +110,8 @@
                  document.getElementById('targetBody').scrollIntoView();
                  return false;
             } else {
-              alert("Only authorized operators can proceed.")
+              location.reload();
+              alert("Only authorized operators can proceed.");
             }
           }
         }
@@ -167,6 +172,30 @@
         let x = document.getElementById("buyEquipment");
         contractWithSigner.buyEquipment(x.elements[0].value, x.elements[1].value, x.elements[2].value, x.elements[3].value);
         document.getElementById("buyEquipment").reset();
+        return false;
+      }
+
+      // function is called with the createAccount upon submission
+      function buyInventory() {
+        let x = document.getElementById("buyInventory");
+        contractWithSigner.buyInventory(x.elements[0].value, x.elements[1].value, x.elements[2].value, x.elements[3].value);
+        document.getElementById("buyInventory").reset();
+        return false;
+      }
+
+      // function is called with the createAccount upon submission
+      function payLease() {
+        let x = document.getElementById("payLease");
+        contractWithSigner.payLease(x.elements[0].value, x.elements[1].value, x.elements[2].value);
+        document.getElementById("payLease").reset();
+        return false;
+      }
+
+      // function is called with the createAccount upon submission
+      function coffeeSale() {
+        let x = document.getElementById("coffeeSale");
+        contractWithSigner.coffeeSale(x.elements[0].value, x.elements[1].value, x.elements[2].value, x.elements[3].value);
+        document.getElementById("coffeeSale").reset();
         return false;
       }
 
@@ -237,6 +266,13 @@
         });
         // awaits the result of the myPromise
         let returnedPromise = await myPromise;
+        // clear transactions
+        // clear the table rows (tr)
+        document.getElementById("transactions").querySelectorAll("table tbody tr").forEach(function(e){
+          e.remove()
+        });        
+
+
           for (i=0; i<returnedPromise.length; i++) {
             // this finds the topoics that match the keccak256 hash of the RecordTransaction event.
             if (returnedPromise[i].topics[0] === "0x5a4fffb01fcd8f94f1044df99b2f314f6805969d5a5ed18ed66c8d46b7ac6ef4") {
@@ -385,6 +421,115 @@
          </div>
         </div>
     </div>
+
+<!-- Third row is more stuff -->
+    <div class="row">
+      <!-- Buy Inventory -->
+      <div class="col-12">
+        <div>
+          <h3> Buy Inventory </h3>
+          <!-- Form for user input -->
+          <div class=container>
+            <form id="buyInventory", onsubmit="return buyInventory()"> 
+
+                <div class="form-group">
+                  <label for="fromAccountAddress">Cash Account Address</label>
+                  <input type="text" class="form-control" id="fromAccountAddress" placeholder="Enter Cash Account Address">
+              </div>
+
+                <div class="form-group">
+                  <label for="toAccountAddress">Inventory Account Address</label>
+                  <input type="text" class="form-control" id="toAccountAddress" placeholder="Enter Inventory Account Address">
+              </div>
+
+              <div class="form-group">
+                  <label for="inventoryDescription">Inventory Description </label>
+                  <input type="text" class="form-control" id="inventoryDescription" placeholder="Enter Inventory Equiptment Description">
+              </div>
+
+                <div class="form-group">
+                  <label for="inventoryAmount">Inventory Amount</label>
+                  <input type="number" class="form-control" id="inventoryAmount" placeholder="Enter Inventory Amount">
+              </div>
+              <input type="submit" class="btn btn-outline-dark btn-sm button-custom-width" value="Submit">
+              </form>
+          </div>
+            <hr>
+         </div>
+        </div>
+    </div>
+
+    <!-- Row is more stuff -->
+    <div class="row">
+      <!-- Pay Lease -->
+      <div class="col-12">
+        <div>
+          <h3> Pay Lease </h3>
+          <!-- Form for user input -->
+          <div class=container>
+            <form id="payLease", onsubmit="return payLease()"> 
+
+                <div class="form-group">
+                  <label for="fromAccountAddress">Cash Account Address</label>
+                  <input type="text" class="form-control" id="fromAccountAddress" placeholder="Enter Cash Account Address">
+              </div>
+
+                <div class="form-group">
+                  <label for="toAccountAddress">Lease Expense Account Address</label>
+                  <input type="text" class="form-control" id="toAccountAddress" placeholder="Enter Lease Expense Account Address">
+              </div>
+
+                <div class="form-group">
+                  <label for="leaseAmount">Lease Amount</label>
+                  <input type="number" class="form-control" id="leaseAmount" placeholder="Enter Lease Amount">
+              </div>
+              <input type="submit" class="btn btn-outline-dark btn-sm button-custom-width" value="Submit">
+              </form>
+          </div>
+            <hr>
+         </div>
+        </div>
+    </div>
+
+
+    <!-- Row is more stuff -->
+    <div class="row">
+      <!-- Coffee Sale -->
+      <div class="col-12">
+        <div>
+          <h3> Coffee Sale </h3>
+          <!-- Form for user input -->
+          <div class=container>
+            <form id="coffeeSale", onsubmit="return coffeeSale()"> 
+
+              <div class="form-group">
+                  <label for="cashAccountAddress">Cash Account Address</label>
+                  <input type="text" class="form-control" id="cashAccountAddress" placeholder="Enter Cash Account Address">
+              </div>
+
+              <div class="form-group">
+                  <label for="inventoryAccountAddress">Inventory Account Address</label>
+                  <input type="text" class="form-control" id="inventoryAccountAddress" placeholder="Enter Inventory Account Address">
+              </div>
+
+              <div class="form-group">
+                  <label for="pricePerCup">Price per Cup</label>
+                  <input type="number" class="form-control" id="pricePerCup" placeholder="Enter Price Per Cup">
+              </div>
+
+              <div class="form-group">
+                  <label for="quantity">Number of Cups</label>
+                  <input type="number" class="form-control" id="quantity" placeholder="Enter Number of Cups">
+              </div>
+
+              <input type="submit" class="btn btn-outline-dark btn-sm button-custom-width" value="Submit">
+              </form>
+          </div>
+            <hr>
+         </div>
+        </div>
+    </div>
+
 
     <!-- Row for the accounting stuff -->
     <div class="row" id='balanceSheet'>
